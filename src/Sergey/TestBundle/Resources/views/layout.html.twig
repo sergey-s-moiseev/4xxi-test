@@ -41,7 +41,11 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if app.user  %}
-                    <li><a href=""><span class="glyphicon glyphicon-log-out"></span> {{ 'Logout' | trans }}</a></li>
+                    <li>
+                        <a href="{{ path("logout") }}">
+                            <span class="glyphicon glyphicon-log-out"></span> {{ 'Logout' | trans }}
+                            <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-circle" width="20">
+                        </a></li>
                     {% endif %}
                 </ul>
             </div><!-- /.container -->

@@ -9,6 +9,9 @@ hwi_oauth_login:
 facebook_login:
     pattern: /login_facebook
 
+logout:
+    pattern: /logout
+
 sergey_test:
     resource: "@SergeyTestBundle/Controller/"
     type:     annotation

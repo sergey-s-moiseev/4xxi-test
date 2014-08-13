@@ -7,17 +7,24 @@ security:
 
     firewalls:
         secured_area:
-              pattern:    ^/
-              oauth:
-                  resource_owners:
-                      facebook:      /login_facebook
-                  login_path:        /login
-                  failure_path:      /login
-                  oauth_user_provider:
-                      service: sergey.test_bundle.provider.facebook
+            pattern:    ^/
+            oauth:
+                resource_owners:
+                    facebook:      /login_facebook
+                login_path:        /login
+                failure_path:      /login
+                oauth_user_provider:
+                    service: sergey.test_bundle.provider.facebook
 
-              # Turn on anonymous for testings need.
-              anonymous: ~
+            # Turn on anonymous for testings need.
+            anonymous: ~
+
+            logout:
+                path: logout
+                target: home
+                invalidate_session: true
+                delete_cookies:
+                    PHPSESSID: { path: '/', domain: ~ }
 
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

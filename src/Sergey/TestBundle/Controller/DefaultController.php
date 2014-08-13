@@ -43,13 +43,5 @@ class DefaultController extends Controller
 
     }
 
-    /**
-     * @Route("/logout", name="_logout")
-     */
-    public function logoutAction()
-    {
-        // The security layer will intercept this request
-    }
-
 
 }
