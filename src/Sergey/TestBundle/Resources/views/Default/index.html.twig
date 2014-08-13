@@ -3,18 +3,14 @@
 {% endblock %}
 
 {% block body %}
-    {% if app.user is null %}
-        <div id="fb-root"></div>
-        <div class="row">
-            <div class="col-md-2 col-md-offset-5">
-                <a href="#" onclick="fb_login();">
-                    <img src="{{ asset('bundles/sergeytest/images/facebook.jpg') }}" class="img-responsive">
-                </a>
-            </div>
+    <div id="fb-root"></div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-5">
+            <a href="#" onclick="fb_login();">
+                <img src="{{ asset('bundles/sergeytest/images/facebook.jpg') }}" class="img-responsive">
+            </a>
         </div>
-    {% else %}
-        {{ render(controller('SergeyTestBundle:Default:im')) }}
-    {% endif %}
+    </div>
 {% endblock body %}
 
 {% block footer_scripts %}
@@ -42,7 +38,7 @@
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     // connected
-                    alert('Already connected, redirect to login page to create token.');
+//                    alert('Already connected, redirect to login page to create token.');
                     document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
                 } else {
                     // not_authorized

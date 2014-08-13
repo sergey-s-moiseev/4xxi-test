@@ -1,0 +1,27 @@
+{% extends 'SergeyTestBundle::layout.html.twig' %}
+
+{% block header_scripts %}
+    {{ tinymce_init() }}
+{% endblock %}
+
+{% block body %}
+
+{% endblock body %}
+
+{% block footer_scripts %}
+{% endblock %}
+
+{% block modal_title %}
+    {% if app.user  %}
+        <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-circle" width="20">
+        {{ app.user.firstName }} {{ app.user.lastName }} [ {{ "New message" }} ]
+    {% endif %}
+{% endblock modal_title %}
+{% block modal_body %}
+    {% form_theme form 'SergeyTestBundle:Form:form.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+{% endblock modal_body %}
+{% block modal_button %}
+    <button type="button" class="btn btn-primary">{{ "Send" | trans}}</button>
+{% endblock modal_button %}

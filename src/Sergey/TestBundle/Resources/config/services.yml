@@ -5,3 +5,8 @@ services:
 
     sergey.test_bundle.media_namer:
           class: Sergey\TestBundle\Extensions\VichUploader\MediaNamer
+
+    sergey.test_bundle.form.wysiwyg:
+          class: Sergey\TestBundle\Form\Type\WYSIWYGType
+          tags:
+            - { name: form.type, alias: wysiwyg }

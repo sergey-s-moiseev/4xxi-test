@@ -83,3 +83,7 @@ hwi_oauth:
             client_secret: %facebook_secret%
             scope:         "email"
             infos_url:     "https://graph.facebook.com/me?fields=name,email,picture.type(square)"
+
+stfalcon_tinymce:
+    selector: ".tinymce"
+    language: '%locale%'
