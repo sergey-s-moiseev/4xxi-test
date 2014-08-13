@@ -21,27 +21,23 @@ class DefaultController extends Controller
         return [
             'facebook_id' => $this->container->getParameter('facebook_id')
         ];
-
     }
 
     /**
-     * @Route("/login", name="_login")
+     * @Route("/im", name="im")
+     * @Template()
      */
-    public function loginAction()
+    public function imAction()
     {
-
-        return [
-
-        ];
+        $session = $this->container->get('session');
+        if (is_null($this->getUser())) {
+            $session->getFlashBag()->add('error', 'You need to be authorized for access to chat');
+            return $this->redirect($this->generateUrl('home'));
+        }
+        return $this->render(
+            'SergeyTestBundle:Default:im.html.twig',
+            []
+        );
     }
-
-    /**
-     * @Route("/login_check", name="_security_check")
-     */
-    public function securityCheckAction()
-    {
-
-    }
-
 
 }

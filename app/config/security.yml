@@ -35,3 +35,5 @@ security:
 
     access_control:
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/media', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/im&, roles: ROLE_USER }

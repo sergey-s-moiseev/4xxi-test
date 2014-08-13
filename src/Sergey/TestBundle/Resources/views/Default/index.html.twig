@@ -3,14 +3,18 @@
 {% endblock %}
 
 {% block body %}
-    <div id="fb-root"></div>
-    <div class="row">
-        <div class="col-md-2 col-md-offset-5">
-            <a href="#" onclick="fb_login();">
-                <img src="{{ asset('bundles/sergeytest/images/facebook.jpg') }}" class="img-responsive">
-            </a>
+    {% if app.user is null %}
+        <div id="fb-root"></div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <a href="#" onclick="fb_login();">
+                    <img src="{{ asset('bundles/sergeytest/images/facebook.jpg') }}" class="img-responsive">
+                </a>
+            </div>
         </div>
-    </div>
+    {% else %}
+        {{ render(controller('SergeyTestBundle:Default:im')) }}
+    {% endif %}
 {% endblock body %}
 
 {% block footer_scripts %}
