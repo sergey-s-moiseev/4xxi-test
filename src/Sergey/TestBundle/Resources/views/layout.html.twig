@@ -1,0 +1,113 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>{{ title|default('4XXI [Test]') }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,800">
+    <link rel="stylesheet" href="{{asset('bundles/sergeytest/css/bootstrap.min.css')}}">
+    <script type="text/javascript" src="{{ asset('bundles/sergeytest/js/jquery-2.1.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/sergeytest/js/bootstrap.min.js') }}"></script>
+    {% block header_scripts %}
+    {% endblock %}
+</head>
+
+{% block body_html %}
+<body>
+<div class="content-wrap">
+
+    {% block top_bar %}
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('home') }}">{{ '[4XXI Test]' | trans }}</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    {% set request_attributes = app.request.attributes %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if app.user  %}
+                    <li><a href=""><span class="glyphicon glyphicon-log-out"></span> {{ 'Logout' | trans }}</a></li>
+                    {% endif %}
+                </ul>
+            </div><!-- /.container -->
+    </nav>
+    {% endblock top_bar %}
+
+    {% block header %}
+        <div id="header">
+            <div class="container">
+            </div> <!-- /.container -->
+        </div> <!-- /#header -->
+    {% endblock header %}
+
+    {% block masthead %}
+        {% if block('masthead_data') %}
+            <div id="masthead">
+                <div class="container">
+                    <div class="masthead-pad">
+                        <div class="masthead-text">
+                            {% block masthead_data %}{% endblock masthead_data %}
+                        </div> <!-- /.masthead-text -->
+                    </div>
+                </div> <!-- /.container -->
+            </div> <!-- /#masthead -->
+        {% endif %}
+    {% endblock masthead %}
+
+    <div id="content" class="container">
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ flashMessage|trans }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ flashMessage|trans }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('warning') %}
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ flashMessage|trans }}
+            </div>
+        {% endfor %}
+        {% block body %}
+        {% endblock body %}
+    </div>
+    {% block footer %}
+        <div class="footer-placeholder"></div>
+        </div>
+        <footer class="sticky-footer navbar-fixed-bottom row-fluid">
+            <div class="container">
+                <div class="pull-right">
+                    {% set start_year = 2014 %}
+                    {% set current_year = "now" | date("Y") %}
+                     © {{ current_year > start_year ? start_year ~ ' - ' : '' }}{{ current_year }} <a href="https://github.com/sergey-s-moiseev" target="_blank">Sergey Moiseev</a>
+                </div>
+            </div>
+        </footer>
+    {% endblock footer %}
+</body>
+{% endblock body_html %}
+
+{% block footer_scripts %}
+{% endblock %}
+
+</html>
