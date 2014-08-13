@@ -3,11 +3,7 @@
 namespace Sergey\TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\Role;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -15,9 +11,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table("users")
  * @ORM\Entity
- * @Vich\Uploadable
  */
-class User implements UserInterface
+class User
 {
     /**
      * @var integer
@@ -69,34 +64,12 @@ class User implements UserInterface
     private $photoFilename;
 
     /**
-     * @var File
-     *
-     * @Assert\Image(maxWidth=1920, maxHeight=1080, mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}, maxSize="5M")
-     * @Vich\UploadableField(mapping="client_photo", fileNameProperty="photoFilename")
-     */
-    private $photo;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated", type="datetime")
-     * @Gedmo\Timestampable
+     * @Gedmo\Timestampable(on="update")
      */
     private $updated;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=40, nullable=true)
-     */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", length=16, nullable=true)
-     */
-    private $salt;
 
     /**
      * @var string
@@ -250,36 +223,6 @@ class User implements UserInterface
     }
 
     /**
-     * Get Photo
-     *
-     * @return \Symfony\Component\HttpFoundation\File\File
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    /**
-     * Set Photo
-     *
-     * @param \Symfony\Component\HttpFoundation\File\File $photo
-     * @return User
-     */
-    public function setPhoto(File $photo = null)
-    {
-        if(is_null($photo))
-        {
-            return $this;
-        }
-        $this->photo = $photo;
-        if($photo instanceof \Symfony\Component\HttpFoundation\File\UploadedFile)
-        {
-            $this->setUpdated(new \DateTime('now', new \DateTimeZone('UTC')));
-        }
-        return $this;
-    }
-
-    /**
      * Set updated
      *
      * @param \DateTime $updated
@@ -303,52 +246,6 @@ class User implements UserInterface
     }
 
     /**
-     * Returns the roles granted to the user.
-     *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return Role[] The user roles
-     */
-    public function getRoles()
-    {
-        return ['ROLE_USER'];
-    }
-
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string The password
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
      * Returns the username used to authenticate the user.
      *
      * @return string The username
@@ -356,43 +253,6 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->getEmail();
-    }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Set salt
-     *
-     * @param string $salt
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
     }
 
     /**

@@ -1,6 +1,7 @@
 services:
     sergey.test_bundle.provider.facebook:
         class: Sergey\TestBundle\Provider\Facebook
+        arguments: [@doctrine]
 
     sergey.test_bundle.media_namer:
           class: Sergey\TestBundle\Extensions\VichUploader\MediaNamer

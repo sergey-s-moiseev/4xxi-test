@@ -45,9 +45,9 @@ assetic:
 vich_uploader:
     db_driver: orm
     mappings:
-        client_photo:
-            uri_prefix: /images/client/photo
-            upload_destination: '%kernel.root_dir%/../web/images/client/photo'
+        user_photo:
+            uri_prefix: /images/user/photo
+            upload_destination: '%kernel.root_dir%/../web/images/user/photo'
             delete_on_update: true
             inject_on_load: true
             namer: sergey.test_bundle.media_namer
@@ -92,3 +92,4 @@ hwi_oauth:
             client_id:     %facebook_id%
             client_secret: %facebook_secret%
             scope:         "email"
+            infos_url:     "https://graph.facebook.com/me?fields=name,email,picture.type(square)"
