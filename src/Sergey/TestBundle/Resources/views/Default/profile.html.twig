@@ -1,0 +1,27 @@
+{% extends 'SergeyTestBundle::layout.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.firstName) }}
+                    {{ form_widget(form.firstName) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form_label(form.lastName) }}
+                    {{ form_widget(form.lastName) }}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">{{ "Submit" | trans}}</button>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock body %}
+

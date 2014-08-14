@@ -35,13 +35,21 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if app.user  %}
+                        {% if app.request.attributes.get('_template').get('controller') == 'Im' %}
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#chatModal">
+                                    <span class="glyphicon glyphicon-pencil"></span> {{ 'Write message' | trans }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path("instant_messenger") }}">
+                                    <span class="glyphicon glyphicon-arrow-left"></span> {{ 'Back to messenger' | trans }}
+                                </a>
+                            </li>
+                        {% endif %}
                     <li>
-                        <a href="#" data-toggle="modal" data-target="#chatModal">
-                            <span class="glyphicon glyphicon-pencil"></span> {{ 'Write message' | trans }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <a href="{{ path("profile") }}">
                             <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-circle" width="20">
                             {{ 'Edit profile' | trans }}
                         </a>
