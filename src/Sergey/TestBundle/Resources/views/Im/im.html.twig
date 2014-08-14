@@ -20,11 +20,14 @@
 
                 <table class="table table-striped">
                     <tbody class="js-imContent" data-ajax-url="{{ url("messages_list_ajax") }}">
-                        <tr class="js-imRow hide" id="imRow-prototype">
+                        <tr class="js-imRow hide" id="imRow-prototype" data-message-id="0">
                             <td>
+                                <span class="glyphicon glyphicon-pencil pull-right js-imEdit" data-toggle="modal" data-target="#chatModal"></span>
                                 <img src="" alt="" class="img-rounded js-imAvatar" width="20">
-                                <span class="js-imMessage"></span>
-                                <span class="glyphicon glyphicon-pencil pull-right js-imEdit" data-toggle="modal" data-target="#chatModal" data-message-id="0"></span>
+                                <span class="js-imCreated"></span>
+                                <div>
+                                    <span class="js-imMessage"></span>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

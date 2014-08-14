@@ -20,6 +20,7 @@ $( document ).ready(function() {
             dataType: "json"
         });
         request.done(function(data) {
+            im_append(data);
             $('.js-closeModel').trigger('click');
         });
     });
@@ -39,13 +40,7 @@ function im_update() {
     request.done(function(data) {
         $.each(data, function(key, value)
             {
-                var _prototype = $("#imRow-prototype").clone();
-                _prototype.find(".js-imAvatar").attr("src", value.user.photo);
-                _prototype.find(".js-imAvatar").attr("alt", value.user.name);
-                _prototype.find(".js-imMessage").html(value.message);
-                _prototype.removeClass('hide');
-                console.log(_prototype);
-                $(".js-imContent").append(_prototype);
+                im_append(value)
             }
         );
     });
@@ -53,4 +48,17 @@ function im_update() {
     request.fail(function( jqXHR, textStatus ) {
         console.log("Request failed: " + textStatus );
     });
+}
+
+function im_append(value) {
+    var _prototype = $("#imRow-prototype").clone();
+    var created = new Date(value.created);
+    _prototype.find(".js-imAvatar").attr("src", value.user.photo_filename);
+    _prototype.find(".js-imAvatar").attr("alt", value.user.first_name + " " + value.user.last_name);
+    _prototype.find(".js-imCreated").html("[" + created.toDateString() + " " + created.toLocaleTimeString() + "]");
+    _prototype.find(".js-imMessage").html(value.message);
+    _prototype.attr("data-message-id", value.id);
+    _prototype.removeClass('hide');
+    $(".js-imContent").append(_prototype);
+
 }

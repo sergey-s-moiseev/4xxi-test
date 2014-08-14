@@ -84,10 +84,9 @@ class User implements UserInterface
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="Message", mappedBy="user")
-     * @ORM\OrderBy({"name"="DESC"})
+     * @ORM\OrderBy({"created"="DESC"})
      */
     private $messages;
-
 
     /**
      * Constructor
@@ -380,15 +379,5 @@ class User implements UserInterface
         return $this->messages;
     }
 
-
-// TODO : remove after tests
-    public function toArray()
-    {
-        return [
-            'id' => $this->getId(),
-            'photo' => $this->getPhotoFilename(),
-            'name' => $this->getFirstName() . " " . $this->getLastName()
-        ];
-    }
 
 }
