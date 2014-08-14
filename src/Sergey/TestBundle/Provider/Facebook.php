@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Vich\UploaderBundle\Storage\AbstractStorage;
 
 class Facebook implements OAuthAwareUserProviderInterface
 {

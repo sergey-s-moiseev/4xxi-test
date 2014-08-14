@@ -5,13 +5,14 @@
 {% endblock %}
 
 {% block body %}
+    <div id="fb-root"></div>
     <div class="row">
         <div class="col-xs-12 col-md-8">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr class="active">
-                        <td></td>
+                        <td><span class="glyphicon glyphicon-th-list"></span></td>
                         <td><b>{{ "Instant messenger" | trans }}</b></td>
                     </tr>
                     </thead>
@@ -30,8 +31,13 @@
                 <table class="table">
                     <thead>
                         <tr class="active">
-                            <td></td>
-                            <td><b>{{ "Friends list" | trans }}</b></td>
+                            <td><span class="glyphicon glyphicon-user"></span></td>
+                            <td>
+                                <b>{{ "Friends list" | trans }}</b>
+                                <a href="#" onclick="fb_friends();">
+                                    <span class="glyphicon glyphicon-plus-sign pull-right"></span>
+                                </a>
+                            </td>
                         </tr>
                     </thead>
                     <tbody>

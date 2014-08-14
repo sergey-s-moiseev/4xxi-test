@@ -36,6 +36,7 @@ class ImController extends Controller
 
         return [
             'form' => $form->createView(),
+            'facebook_id' => $this->container->getParameter('facebook_id')
         ];
     }
 }
