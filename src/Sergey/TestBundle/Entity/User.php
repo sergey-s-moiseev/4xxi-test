@@ -80,6 +80,23 @@ class User implements UserInterface
      */
     private $email;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="user")
+     * @ORM\OrderBy({"name"="DESC"})
+     */
+    private $messages;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->friends = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->messages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -160,13 +177,6 @@ class User implements UserInterface
         return $this->facebookId;
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->friends = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add friends
@@ -336,4 +346,49 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
+    /**
+     * Add messages
+     *
+     * @param \Sergey\TestBundle\Entity\Message $messages
+     * @return User
+     */
+    public function addMessage(\Sergey\TestBundle\Entity\Message $messages)
+    {
+        $this->messages[] = $messages;
+
+        return $this;
+    }
+
+    /**
+     * Remove messages
+     *
+     * @param \Sergey\TestBundle\Entity\Message $messages
+     */
+    public function removeMessage(\Sergey\TestBundle\Entity\Message $messages)
+    {
+        $this->messages->removeElement($messages);
+    }
+
+    /**
+     * Get messages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+
+// TODO : remove after tests
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'photo' => $this->getPhotoFilename(),
+            'name' => $this->getFirstName() . " " . $this->getLastName()
+        ];
+    }
+
 }

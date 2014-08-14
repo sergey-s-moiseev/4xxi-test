@@ -22,11 +22,12 @@ class Message
     private $id;
 
     /**
-     * @var integer
+     * @var User
      *
-     * @ORM\Column(name="user_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="messages")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private $userId;
+    private $user;
 
     /**
      * @var string
@@ -51,29 +52,6 @@ class Message
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     * @return Message
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
-     *
-     * @return integer 
-     */
-    public function getUserId()
-    {
-        return $this->userId;
     }
 
     /**
@@ -120,5 +98,29 @@ class Message
     public function getCreated()
     {
         return $this->created;
+    }
+
+
+    /**
+     * Set user
+     *
+     * @param \Sergey\TestBundle\Entity\User $user
+     * @return Message
+     */
+    public function setUser(\Sergey\TestBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Sergey\TestBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
