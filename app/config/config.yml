@@ -87,3 +87,7 @@ hwi_oauth:
 stfalcon_tinymce:
     selector: ".tinymce"
     language: '%locale%'
+    theme:
+        simple:
+            menubar: false
+            image_advtab: false

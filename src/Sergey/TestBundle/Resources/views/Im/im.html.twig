@@ -5,6 +5,49 @@
 {% endblock %}
 
 {% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr class="active">
+                        <td></td>
+                        <td><b>{{ "Instant messenger" | trans }}</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="active">
+                            <td></td>
+                            <td><b>{{ "Friends list" | trans }}</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="https://www.facebook.com/{{ app.user.facebookId }}" target="_blank">
+                                    <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                </a>
+                            </td>
+                            <td>{{ app.user.firstName }} {{ app.user.lastName }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 {% endblock body %}
 
