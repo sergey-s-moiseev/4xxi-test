@@ -1,6 +1,8 @@
 <?php
 namespace Sergey\TestBundle\Controller;
 
+use DateTimeZone;
+use Doctrine\ORM\EntityManager;
 use Sergey\TestBundle\Entity\Message;
 use Sergey\TestBundle\Form\MessageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,11 +30,19 @@ class ImController extends Controller
             $session->getFlashBag()->add('error', 'You need to be authorized for access to chat');
             return $this->redirect($this->generateUrl('home'));
         }
-
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getDoctrine()->getManager();
+        $messages = $em ->getRepository("SergeyTestBundle:Message")
+                        ->createQueryBuilder("m")
+                        ->setMaxResults(10)
+                        ->orderBy('m.created', 'DESC')
+                        ->getQuery()
+                    ->getResult();
 
         return [
             'form' => $this->generateMessageForm(new Message())->createView(),
-            'facebook_id' => $this->container->getParameter('facebook_id')
+            'facebook_id' => $this->container->getParameter('facebook_id'),
+            'messages' => $messages
         ];
     }
 
@@ -42,12 +52,20 @@ class ImController extends Controller
      */
     public function messagesListAjaxAction(Request $request)
     {
-        return new JsonResponse([
-           [
-               'user' => $this->getUser()->toArray(),
-               'message' => "1232133"
-           ]
-        ]);
+
+        $lastUpdate = new \DateTime($request->request->get('last_update'));
+
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getDoctrine()->getManager();
+        $messages = $em ->getRepository("SergeyTestBundle:Message")
+                        ->createQueryBuilder("m")
+                        ->where("m.created > :last_ts")
+                        ->setParameters(['last_ts'=>$lastUpdate->format("Y-m-d H:i:s")])
+                        ->orderBy('m.created', 'ASC')
+                        ->getQuery()
+                    ->getResult();
+        $serializer = $this->container->get('jms_serializer');
+        return new Response($serializer->serialize($messages, 'json'));
     }
 
     /**
@@ -62,7 +80,7 @@ class ImController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $message->setCreated(new \DateTime("now"));
+            $message->setCreated(new \DateTime("now", new DateTimezone("europe/moscow")));
             $message->setUser($this->getUser());
 
             $em->persist($message);

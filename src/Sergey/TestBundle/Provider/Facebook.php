@@ -1,6 +1,7 @@
 <?php
 namespace Sergey\TestBundle\Provider;
 
+use DateTimeZone;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Sergey\TestBundle\Entity\User;
@@ -47,7 +48,7 @@ class Facebook implements OAuthAwareUserProviderInterface
             $user->setEmail($email);
             // Note: need to save avatar file to disk (use VichUploader), but it's takes some time
             $user->setPhotoFilename($avatar);
-            $user->setUpdated(new \DateTime("now"));
+            $user->setUpdated(new \DateTime("now"), new DateTimezone("europe/moscow"));
             $this->em->persist($user);
             $this->em->flush();
         }
