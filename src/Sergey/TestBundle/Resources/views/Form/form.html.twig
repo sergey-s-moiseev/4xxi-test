@@ -1,8 +1,6 @@
 {% block wysiwyg_widget %}
     {% spaceless %}
         <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
-        <span id="{{ id }}_text_limiter" class="text-limiter__count"></span>
-        <div id="{{ id }}-error"></div>
         {{ form_errors(form) }}
     {% endspaceless %}
 {% endblock wysiwyg_widget %}

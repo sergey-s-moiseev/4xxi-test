@@ -15,6 +15,7 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->setAction($options['ajax_action_url'])
             ->add('message', 'wysiwyg')
         ;
     }
@@ -24,9 +25,16 @@ class MessageType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Sergey\TestBundle\Entity\Message'
-        ));
+        $resolver
+            ->setDefaults([
+                'data_class' => 'Sergey\TestBundle\Entity\Message'
+            ])
+            ->setRequired([
+                'ajax_action_url',
+            ])
+            ->setAllowedTypes([
+                'ajax_action_url' => 'string'
+            ]);
     }
 
     /**

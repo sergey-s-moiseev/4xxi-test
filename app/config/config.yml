@@ -85,6 +85,9 @@ hwi_oauth:
             infos_url: "https://graph.facebook.com/me?fields=name,email,picture.type(square)"
 
 stfalcon_tinymce:
+    include_jquery: true
+    tinymce_jquery: true
+
     selector: ".tinymce"
     language: '%locale%'
     theme:

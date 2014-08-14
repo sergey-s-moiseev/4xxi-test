@@ -7,12 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/im")
@@ -31,25 +29,18 @@ class ImController extends Controller
             return $this->redirect($this->generateUrl('home'));
         }
 
-        $form = $this->createForm(
-            new MessageType(),
-            new Message(),
-            []
-        );
-
-        $form->handleRequest($request);
 
         return [
-            'form' => $form->createView(),
+            'form' => $this->generateMessageForm(new Message())->createView(),
             'facebook_id' => $this->container->getParameter('facebook_id')
         ];
     }
 
     /**
-     * @Route("/messages", name="messages_ajax")
+     * @Route("/messages_list", name="messages_list_ajax")
      * @Method("POST")
      */
-    public function messagesAjaxAction(Request $request)
+    public function messagesListAjaxAction(Request $request)
     {
         return new JsonResponse([
            [
@@ -57,5 +48,38 @@ class ImController extends Controller
                'message' => "1232133"
            ]
         ]);
+    }
+
+    /**
+     * @Route("/message/{id}", name="message_ajax", defaults={"id": null})
+     * @Method("POST")
+     */
+    public function messagesAddEditAjaxAction(Request $request)
+    {
+        $message = new Message();
+        $form = $this->generateMessageForm($message);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $message->setCreated(new \DateTime("now"));
+            $message->setUser($this->getUser());
+
+            $em->persist($message);
+            $em->flush();
+        }
+        return new JsonResponse($request);
+    }
+
+    private function generateMessageForm(Message $message)
+    {
+        $form = $this->createForm(
+            new MessageType(),
+            $message,
+            [
+                'ajax_action_url' => $this->generateUrl('message_ajax')
+            ]
+        );
+        return $form;
     }
 }

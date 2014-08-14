@@ -19,12 +19,12 @@
                 </div>
 
                 <table class="table table-striped">
-                    <tbody class="js-imContent" data-ajax-url="{{ url("messages_ajax") }}">
+                    <tbody class="js-imContent" data-ajax-url="{{ url("messages_list_ajax") }}">
                         <tr class="js-imRow hide" id="imRow-prototype">
                             <td>
                                 <img src="" alt="" class="img-rounded js-imAvatar" width="20">
                                 <span class="js-imMessage"></span>
-                                <span class="glyphicon glyphicon-pencil pull-right js-imEdit hide" data-message-id="0"></span>
+                                <span class="glyphicon glyphicon-pencil pull-right js-imEdit" data-toggle="modal" data-target="#chatModal" data-message-id="0"></span>
                             </td>
                         </tr>
                     </tbody>
@@ -70,9 +70,11 @@
 {% endblock modal_title %}
 {% block modal_body %}
     {% form_theme form 'SergeyTestBundle:Form:form.html.twig' %}
-    {{ form_start(form) }}
+    {{ form_start(form, { 'attr': {'class': 'js-messageForm'} }) }}
+    {{ form_widget(form.message) }}
+    {{ form_widget(form._token) }}
     {{ form_end(form) }}
 {% endblock modal_body %}
 {% block modal_button %}
-    <button type="button" class="btn btn-primary">{{ "Send" | trans}}</button>
+    <button type="button" class="btn btn-primary js-messageFormSubmit">{{ "Send" | trans}}</button>
 {% endblock modal_button %}
