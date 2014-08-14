@@ -1,0 +1,24 @@
+table {
+    width: 100%;
+}
+
+tbody, tr, td { display: block; }
+
+tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+
+tbody {
+    height: 450px;
+    overflow-y: auto;
+}
+
+
+tbody td{
+    width: 100%;
+    float: left;
+}

@@ -1,6 +1,8 @@
 {% extends 'SergeyTestBundle::layout.html.twig' %}
 
 {% block header_scripts %}
+    <link rel="stylesheet" href="{{asset('bundles/sergeytest/css/main.css')}}">
+    <script type="text/javascript" src="{{ asset('bundles/sergeytest/js/messenger.js') }}"></script>
     {{ tinymce_init() }}
 {% endblock %}
 
@@ -9,45 +11,176 @@
     <div class="row">
         <div class="col-xs-12 col-md-8">
             <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr class="active">
-                        <td><span class="glyphicon glyphicon-th-list"></span></td>
-                        <td><b>{{ "Instant messenger" | trans }}</b></td>
-                    </tr>
-                    </thead>
+                <div>
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-refresh pull-right"></span>
+                    </a>
+                </div>
+
+                <table class="table table-striped">
                     <tbody>
-                    <tr>
-                        <td>
-                        </td>
-                        <td></td>
-                    </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
+                        <tr class="warning">
+                            <td>
+                                <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
+                                Msg1
+                                <span class="glyphicon glyphicon-pencil pull-right"></span>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="col-xs-6 col-md-4">
             <div class="table-responsive">
+                <div>
+                    <span class="glyphicon glyphicon-user"></span>
+                    <b>{{ "Friends list" | trans }}</b>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-plus-sign pull-right"></span>
+                    </a>
+                </div>
                 <table class="table">
-                    <thead>
-                        <tr class="active">
-                            <td><span class="glyphicon glyphicon-user"></span></td>
-                            <td>
-                                <b>{{ "Friends list" | trans }}</b>
-                                <a href="#" onclick="fb_friends();">
-                                    <span class="glyphicon glyphicon-plus-sign pull-right"></span>
-                                </a>
-                            </td>
-                        </tr>
-                    </thead>
                     <tbody>
                         <tr>
                             <td>
                                 <a href="https://www.facebook.com/{{ app.user.facebookId }}" target="_blank">
                                     <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
                                 </a>
+                                {{ app.user.firstName }} {{ app.user.lastName }}
                             </td>
-                            <td>{{ app.user.firstName }} {{ app.user.lastName }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -58,6 +191,7 @@
 {% endblock body %}
 
 {% block footer_scripts %}
+
 {% endblock %}
 
 {% block modal_title %}
