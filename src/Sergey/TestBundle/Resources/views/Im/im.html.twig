@@ -23,27 +23,29 @@
                     <tbody class="js-imContent" data-ajax-url="{{ url("messages_list_ajax") }}">
                     {% for message in messages %}
                         {% set user = message.user %}
-                        <tr class="js-imRow" data-message-id="{{ message.id }}">
+                        <tr class="js-imRow" data-message-id="{{ message.id }}" data-edit-url="{{ url('edit_form_ajax') }}">
                             <td>
                                 {% if app.user.id == user.id %}
-                                    <span class="glyphicon glyphicon-pencil pull-right js-imEdit" data-toggle="modal" data-target="#chatModal"></span>
+                                    <span class="glyphicon glyphicon-pencil pull-right js-imEdit"></span>
                                 {% endif %}
                                 <img src="{{ user.photoFilename }}" alt="{{ user.firstName }} {{ user.lastName }}" class="img-rounded js-imAvatar" width="20">
                                 <span class="js-imCreated small">{{ message.created | date("D M j Y H:i:s") }}</span>
-                                <div class="container-fluid">
+                                <div class="container-fluid js-MessageContainer">
                                     <span class="js-imMessage">{{ message.message | raw }}</span>
                                 </div>
+                                <div class="container-fluid js-EditMessageContainer hide"></div>
                             </td>
                         </tr>
                     {% endfor %}
-                    <tr class="js-imRow hide" id="imRow-prototype" data-message-id="0">
+                    <tr class="js-imRow hide" id="imRow-prototype" data-message-id="" data-edit-url="{{ url('edit_form_ajax') }}">
                         <td>
-                            <span class="glyphicon glyphicon-pencil pull-right js-imEdit" data-toggle="modal" data-target="#chatModal"></span>
+                            <span class="glyphicon glyphicon-pencil pull-right js-imEdit"></span>
                             <img src="" alt="" class="img-rounded js-imAvatar" width="20">
                             <span class="js-imCreated small"></span>
-                            <div class="container-fluid">
+                            <div class="container-fluid js-MessageContainer">
                                 <span class="js-imMessage"></span>
                             </div>
+                            <div class="container-fluid js-EditMessageContainer hide"></div>
                         </td>
                     </tr>
                     </tbody>
@@ -53,11 +55,10 @@
         <div class="col-xs-6 col-md-4">
             <div class="table-responsive">
                 <div>
-                    <span class="glyphicon glyphicon-user"></span>
-                    <b>{{ "Friends list" | trans }}</b>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-plus-sign pull-right"></span>
+                    <a href="#" onclick="fb_friends();">
+                        <span class="glyphicon glyphicon-user"></span>
                     </a>
+                    <b>{{ "Friends list" | trans }}</b>
                 </div>
                 <table class="table">
                     <tbody>
@@ -78,7 +79,36 @@
 {% endblock body %}
 
 {% block footer_scripts %}
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '{{ facebook_id }}',                  // App ID from the app dashboard
+                status     : true,                                 // Check Facebook Login status
+                xfbml      : true                                  // Look for social plugins on the page
+            });
+        };
 
+        // Load the SDK asynchronously
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function fb_friends() {
+            FB.api(
+                "/me/friends",
+                function (response) {
+                    if (response && !response.error) {
+                        /* handle the result */
+                        console.log(response);
+                    }
+                }
+            );
+        }
+    </script>
 {% endblock %}
 
 {% block modal_title %}
@@ -90,8 +120,8 @@
 {% block modal_body %}
     {% form_theme form 'SergeyTestBundle:Form:form.html.twig' %}
     {{ form_start(form, { 'attr': {'class': 'js-messageForm'} }) }}
-    {{ form_widget(form.message) }}
-    {{ form_widget(form._token) }}
+        {{ form_widget(form.message) }}
+        {{ form_widget(form._token) }}
     {{ form_end(form) }}
 {% endblock modal_body %}
 {% block modal_button %}

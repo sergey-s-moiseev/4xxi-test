@@ -60,7 +60,7 @@ class ImController extends Controller
         $messages = $em ->getRepository("SergeyTestBundle:Message")
                         ->createQueryBuilder("m")
                         ->where("m.created > :last_ts")
-                        ->setParameters(['last_ts'=>$lastUpdate->format("Y-m-d H:i:s")])
+                        ->setParameters(['last_ts' => $lastUpdate->format("Y-m-d H:i:s")])
                         ->orderBy('m.created', 'ASC')
                         ->getQuery()
                     ->getResult();
@@ -72,7 +72,7 @@ class ImController extends Controller
      * @Route("/message/{id}", name="message_ajax", defaults={"id": null})
      * @Method("POST")
      */
-    public function messagesAddEditAjaxAction(Request $request)
+    public function messagesAddAjaxAction(Request $request)
     {
         $message = new Message();
         $form = $this->generateMessageForm($message);
@@ -90,13 +90,51 @@ class ImController extends Controller
         return new Response($serializer->serialize($message, 'json'));
     }
 
-    private function generateMessageForm(Message $message)
+    /**
+     * @Route("/edit_message", name="edit_message_ajax")
+     * @Method("POST")
+     */
+    public function messagesEditAjaxAction(Request $request)
+    {
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getDoctrine()->getManager();
+        $message = $em ->getRepository("SergeyTestBundle:Message")->findOneBy(['id' => $request->request->get('message_id')]);
+        $form = $this->generateMessageForm($message);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $message->setCreated(new \DateTime("now", new DateTimezone("europe/moscow")));
+            $message->setUser($this->getUser());
+
+            $em->persist($message);
+            $em->flush();
+        }
+        $serializer = $this->container->get('jms_serializer');
+        return new Response($serializer->serialize($message, 'json'));
+    }
+
+    /**
+     * @Route("/edit_form", name="edit_form_ajax")
+     * @Method("POST")
+     */
+    public function editFormAjaxAction(Request $request)
+    {
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getDoctrine()->getManager();
+        $message = $em ->getRepository("SergeyTestBundle:Message")->findOneBy(['id' => $request->request->get('message_id')]);
+
+        return $this->render("SergeyTestBundle:Form:edit_form.html.twig",
+                [
+                    'form' => $this->generateMessageForm($message, $this->generateUrl('edit_message_ajax'))->createView(),
+                ]);
+    }
+
+    private function generateMessageForm(Message $message, $action = null)
     {
         $form = $this->createForm(
             new MessageType(),
             $message,
             [
-                'ajax_action_url' => $this->generateUrl('message_ajax')
+                'ajax_action_url' => is_null($action) ? $this->generateUrl('message_ajax') : $action
             ]
         );
         return $form;

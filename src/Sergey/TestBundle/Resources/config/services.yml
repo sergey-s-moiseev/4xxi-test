@@ -1,7 +1,7 @@
 services:
     sergey.test_bundle.provider.facebook:
         class: Sergey\TestBundle\Provider\Facebook
-        arguments: [@doctrine]
+        arguments: [@doctrine, @session]
 
     sergey.test_bundle.form.wysiwyg:
           class: Sergey\TestBundle\Form\Type\WYSIWYGType

@@ -27,7 +27,27 @@ $( document ).ready(function() {
         });
     });
 
-    setInterval (im_update, 15000);
+    $('.js-imEdit').on('click', function() {
+        var _parent = $(this).parent().parent();
+        var _edit_container = _parent.find('.js-EditMessageContainer');
+
+        var request = $.ajax({
+            url: _parent.data('edit-url'),
+            type: "POST",
+            data: {'message_id': _parent.data('message-id')},
+            dataType: "json"
+        });
+
+        request.done(function(data) {
+            $(this).addClass('hide');
+            _parent.find('.js-MessageContainer').addClass('hide');
+            _edit_container.html(data);
+            _edit_container.removeClass('hide')
+        });
+    });
+
+
+    setInterval (im_update, 30000);
 });
 
 function im_update() {
@@ -62,15 +82,19 @@ function im_update() {
 }
 
 function im_append(value) {
-    console.log(value);
     var _prototype = $("#imRow-prototype").clone();
     var created = new Date(value.created);
     _prototype.find(".js-imAvatar").attr("src", value.user.photo_filename);
     _prototype.find(".js-imAvatar").attr("alt", value.user.first_name + " " + value.user.last_name);
     _prototype.find(".js-imCreated").html(created.toDateString() + " " + created.toLocaleTimeString());
     _prototype.find(".js-imMessage").html(value.message);
+    _prototype.find(".js-imMessageEdit").html(value.message);
     _prototype.attr("data-message-id", value.id);
     _prototype.removeClass('hide');
     $(".js-imContent").prepend(_prototype);
+}
 
+function im_edit(element) {
+    var message = element.parent().find('js-imMessageEdit').html();
+    console.log(message);
 }
