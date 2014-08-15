@@ -21,7 +21,12 @@ $( document ).ready(function() {
         });
         request.done(function(data) {
             $(".js-messageFormSubmit").prop('disabled', false);
+            form.reset;
             im_append(data);
+            $('.js-closeModel').trigger('click');
+        });
+        request.fail(function( jqXHR, textStatus ) {
+            $(".js-messageFormSubmit").prop('disabled', false);
             $('.js-closeModel').trigger('click');
         });
     });

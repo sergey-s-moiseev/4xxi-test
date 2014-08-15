@@ -19,12 +19,12 @@ class MessageType extends AbstractType
         $builder
             ->setAction($options['ajax_action_url'])
             ->add('message', 'wysiwyg');
-        if ($options['is_edit']) {
-            $builder->add('id', 'hidden')
-                    ->add(
-                        $builder->create('created', 'hidden')
-                            ->addViewTransformer(new DateTimeToStringTransformer())
-                    );
+        if (!is_null($options['edit_id']))
+        {
+            $builder->add('id', 'hidden', [
+                'mapped' => false,
+                'data' => $options['edit_id']
+            ]);
         }
     }
     
@@ -36,15 +36,15 @@ class MessageType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => 'Sergey\TestBundle\Entity\Message',
-                'is_edit' => false
+                'edit_id' => null
             ])
             ->setRequired([
-                'is_edit',
                 'ajax_action_url',
+                'edit_id'
             ])
             ->setAllowedTypes([
-                'is_edit' => 'bool',
-                'ajax_action_url' => 'string'
+                'ajax_action_url' => 'string',
+                'edit_id' => ['int', 'null']
             ]);
     }
 

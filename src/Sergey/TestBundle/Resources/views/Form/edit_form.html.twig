@@ -1,7 +1,5 @@
 {% form_theme form 'SergeyTestBundle:Form:form.html.twig' %}
 {{ form_start(form, { 'attr': {'class': 'js-messageEditForm'} }) }}
-    {{ form_widget(form.id) }}
-    {{ form_widget(form.created) }}
     {{ form_widget(form.message) }}
     {{ form_widget(form._token) }}
     <button type="submit" class="btn btn-success pull-right js-messageEditFormSubmit">{{ "Edit message" | trans }}</button>

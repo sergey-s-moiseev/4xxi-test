@@ -26,7 +26,7 @@ class ImController extends Controller
      */
     public function imAction(Request $request)
     {
-        $session = $this->container->get('session');
+        $session = $this->get('session');
         if (is_null($this->getUser())) {
             $session->getFlashBag()->add('error', 'You need to be authorized for access to chat');
             return $this->redirect($this->generateUrl('home'));
@@ -68,12 +68,22 @@ class ImController extends Controller
     }
 
     /**
-     * @Route("/message/{id}", name="message_ajax", defaults={"id": null})
+     * @Route("/message", name="message_ajax")
      * @Method("POST")
      */
     public function messagesAjaxAction(Request $request)
     {
-        $message = new Message();
+        $_request = $request->request->get('sergey_testbundle_message');
+        if (isset($_request['id']))
+        {
+            $em = $this->getDoctrine()->getManager();
+            $message = $em->getRepository("SergeyTestBundle:Message")
+                      ->findOneBy(['id' => $_request['id']]);
+        }
+        else
+        {
+            $message = new Message();
+        }
         $form = $this->generateMessageForm($message);
         $form->handleRequest($request);
 
@@ -82,6 +92,8 @@ class ImController extends Controller
             $message->setUser($this->getUser());
             $em->persist($message);
             $em->flush();
+        } else if ($form->isSubmitted()) {
+           var_dump($form->getErrorsAsString());exit;
         }
 
         $serializer = $this->container->get('jms_serializer');
@@ -100,18 +112,18 @@ class ImController extends Controller
         $message = $em ->getRepository("SergeyTestBundle:Message")->findOneBy(['id' => $request->request->get('message_id')]);
 
         return new JsonResponse(['form' => $this->renderView("SergeyTestBundle:Form:edit_form.html.twig",
-            [ 'form' => $this->generateMessageForm($message, true)->createView() ])
+            [ 'form' => $this->generateMessageForm($message)->createView() ])
         ]);
     }
 
-    private function generateMessageForm(Message $message, $is_edit = false)
+    private function generateMessageForm(Message $message)
     {
         $form = $this->createForm(
             new MessageType(),
             $message,
             [
-                'is_edit' => $is_edit,
-                'ajax_action_url' => $this->generateUrl('message_ajax')
+                'ajax_action_url' => $this->generateUrl('message_ajax'),
+                'edit_id' => $message->getId()
             ]
         );
 

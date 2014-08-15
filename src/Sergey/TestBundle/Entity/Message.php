@@ -4,6 +4,7 @@ namespace Sergey\TestBundle\Entity;
 
 use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Message
@@ -40,18 +41,10 @@ class Message
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
 
     /**
      * Get id
@@ -71,10 +64,6 @@ class Message
      */
     public function setMessage($message)
     {
-        if (is_null($this->created))
-        {
-            $this->setCreated(new \DateTime("now", new DateTimezone("europe/moscow")));
-        }
         $this->message = $message;
 
         return $this;
