@@ -9,13 +9,12 @@ $( document ).ready(function() {
         $(this).prop('disabled', true);
         form.submit();
     });
-
     form.on('submit', function(e) {
         e.preventDefault();
 
         data = $(this).serializeArray();
         var request = $.ajax({
-            url: form.attr('action'),
+            url: $(this).attr('action'),
             type: "POST",
             data: data,
             dataType: "json"
@@ -27,25 +26,7 @@ $( document ).ready(function() {
         });
     });
 
-    $('.js-imEdit').on('click', function() {
-        var _parent = $(this).parent().parent();
-        var _edit_container = _parent.find('.js-EditMessageContainer');
-
-        var request = $.ajax({
-            url: _parent.data('edit-url'),
-            type: "POST",
-            data: {'message_id': _parent.data('message-id')},
-            dataType: "json"
-        });
-
-        request.done(function(data) {
-            $(this).addClass('hide');
-            _parent.find('.js-MessageContainer').addClass('hide');
-            _edit_container.html(data);
-            _edit_container.removeClass('hide')
-        });
-    });
-
+    $('.js-imEdit').on('click', on_edit);
 
     setInterval (im_update, 30000);
 });
@@ -88,13 +69,51 @@ function im_append(value) {
     _prototype.find(".js-imAvatar").attr("alt", value.user.first_name + " " + value.user.last_name);
     _prototype.find(".js-imCreated").html(created.toDateString() + " " + created.toLocaleTimeString());
     _prototype.find(".js-imMessage").html(value.message);
-    _prototype.find(".js-imMessageEdit").html(value.message);
+    _prototype.find('.js-imEdit').on('click', on_edit);
     _prototype.attr("data-message-id", value.id);
     _prototype.removeClass('hide');
     $(".js-imContent").prepend(_prototype);
 }
 
-function im_edit(element) {
-    var message = element.parent().find('js-imMessageEdit').html();
-    console.log(message);
+function on_edit() {
+    var _parent = $(this).parent().parent();
+    var _edit_container = _parent.find('.js-EditMessageContainer');
+    var message_id = _parent.data('message-id');
+
+    var request = $.ajax({
+        url: _parent.data('edit-url'),
+        type: "POST",
+        data: {'message_id': message_id},
+        dataType: "json"
+    });
+
+    request.done(function(data) {
+        $(this).addClass('hide');
+        var _message_container = _parent.find('.js-MessageContainer').addClass('hide');
+        var _prototype_form = $.parseHTML(data.form);
+//            var _submit_edit_form = $(_prototype_form).find(".js-messageEditFormSubmit");
+        _edit_container.html(_prototype_form);
+        tinymce.init({selector:'textarea'});
+
+        $(_prototype_form).on('submit', function(e) {
+            e.preventDefault();
+
+            data = $(this).serializeArray();
+            var request = $.ajax({
+                url: $(this).attr('action'),
+                type: "POST",
+                data: data,
+                dataType: "json"
+            });
+            request.done(function(data) {
+                var created = new Date(data.created);
+                _edit_container.empty();
+                _message_container.find(".js-imCreated").html(created.toDateString() + " " + created.toLocaleTimeString());
+                _message_container.find(".js-imMessage").html(data.message);
+                _message_container.removeClass('hide')
+            });
+        });
+
+        _edit_container.removeClass('hide')
+    });
 }

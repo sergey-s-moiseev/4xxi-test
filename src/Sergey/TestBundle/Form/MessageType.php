@@ -3,7 +3,9 @@
 namespace Sergey\TestBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class MessageType extends AbstractType
@@ -16,8 +18,14 @@ class MessageType extends AbstractType
     {
         $builder
             ->setAction($options['ajax_action_url'])
-            ->add('message', 'wysiwyg')
-        ;
+            ->add('message', 'wysiwyg');
+        if ($options['is_edit']) {
+            $builder->add('id', 'hidden')
+                    ->add(
+                        $builder->create('created', 'hidden')
+                            ->addViewTransformer(new DateTimeToStringTransformer())
+                    );
+        }
     }
     
     /**
@@ -27,12 +35,15 @@ class MessageType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'data_class' => 'Sergey\TestBundle\Entity\Message'
+                'data_class' => 'Sergey\TestBundle\Entity\Message',
+                'is_edit' => false
             ])
             ->setRequired([
+                'is_edit',
                 'ajax_action_url',
             ])
             ->setAllowedTypes([
+                'is_edit' => 'bool',
                 'ajax_action_url' => 'string'
             ]);
     }

@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -52,9 +53,7 @@ class ImController extends Controller
      */
     public function messagesListAjaxAction(Request $request)
     {
-
         $lastUpdate = new \DateTime($request->request->get('last_update'));
-
         /* @var $em \Doctrine\ORM\EntityManager */
         $em = $this->getDoctrine()->getManager();
         $messages = $em ->getRepository("SergeyTestBundle:Message")
@@ -72,7 +71,7 @@ class ImController extends Controller
      * @Route("/message/{id}", name="message_ajax", defaults={"id": null})
      * @Method("POST")
      */
-    public function messagesAddAjaxAction(Request $request)
+    public function messagesAjaxAction(Request $request)
     {
         $message = new Message();
         $form = $this->generateMessageForm($message);
@@ -80,37 +79,15 @@ class ImController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $message->setCreated(new \DateTime("now", new DateTimezone("europe/moscow")));
             $message->setUser($this->getUser());
-
             $em->persist($message);
             $em->flush();
         }
+
         $serializer = $this->container->get('jms_serializer');
         return new Response($serializer->serialize($message, 'json'));
     }
 
-    /**
-     * @Route("/edit_message", name="edit_message_ajax")
-     * @Method("POST")
-     */
-    public function messagesEditAjaxAction(Request $request)
-    {
-        /* @var $em \Doctrine\ORM\EntityManager */
-        $em = $this->getDoctrine()->getManager();
-        $message = $em ->getRepository("SergeyTestBundle:Message")->findOneBy(['id' => $request->request->get('message_id')]);
-        $form = $this->generateMessageForm($message);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $message->setCreated(new \DateTime("now", new DateTimezone("europe/moscow")));
-            $message->setUser($this->getUser());
-
-            $em->persist($message);
-            $em->flush();
-        }
-        $serializer = $this->container->get('jms_serializer');
-        return new Response($serializer->serialize($message, 'json'));
-    }
 
     /**
      * @Route("/edit_form", name="edit_form_ajax")
@@ -122,21 +99,22 @@ class ImController extends Controller
         $em = $this->getDoctrine()->getManager();
         $message = $em ->getRepository("SergeyTestBundle:Message")->findOneBy(['id' => $request->request->get('message_id')]);
 
-        return $this->render("SergeyTestBundle:Form:edit_form.html.twig",
-                [
-                    'form' => $this->generateMessageForm($message, $this->generateUrl('edit_message_ajax'))->createView(),
-                ]);
+        return new JsonResponse(['form' => $this->renderView("SergeyTestBundle:Form:edit_form.html.twig",
+            [ 'form' => $this->generateMessageForm($message, true)->createView() ])
+        ]);
     }
 
-    private function generateMessageForm(Message $message, $action = null)
+    private function generateMessageForm(Message $message, $is_edit = false)
     {
         $form = $this->createForm(
             new MessageType(),
             $message,
             [
-                'ajax_action_url' => is_null($action) ? $this->generateUrl('message_ajax') : $action
+                'is_edit' => $is_edit,
+                'ajax_action_url' => $this->generateUrl('message_ajax')
             ]
         );
+
         return $form;
     }
 }

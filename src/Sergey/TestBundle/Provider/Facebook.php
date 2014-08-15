@@ -57,7 +57,7 @@ class Facebook implements OAuthAwareUserProviderInterface
             $user->setEmail($email);
             // Note: need to save avatar file to disk (use VichUploader), but it's takes some time
             $user->setPhotoFilename($avatar);
-            $user->setUpdated(new \DateTime("now"), new DateTimezone("europe/moscow"));
+            $user->setUpdated(new \DateTime("now", new DateTimezone("europe/moscow")));
             $this->em->persist($user);
             $this->em->flush();
         }

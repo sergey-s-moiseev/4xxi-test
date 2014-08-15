@@ -2,6 +2,7 @@
 
 namespace Sergey\TestBundle\Entity;
 
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,6 +44,14 @@ class Message
      */
     private $created;
 
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
 
     /**
      * Get id
@@ -62,6 +71,10 @@ class Message
      */
     public function setMessage($message)
     {
+        if (is_null($this->created))
+        {
+            $this->setCreated(new \DateTime("now", new DateTimezone("europe/moscow")));
+        }
         $this->message = $message;
 
         return $this;
