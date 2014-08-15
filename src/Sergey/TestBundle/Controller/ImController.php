@@ -42,7 +42,6 @@ class ImController extends Controller
 
         return [
             'form' => $this->generateMessageForm(new Message())->createView(),
-            'facebook_id' => $this->container->getParameter('facebook_id'),
             'messages' => $messages
         ];
     }

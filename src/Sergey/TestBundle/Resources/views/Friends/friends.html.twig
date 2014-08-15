@@ -1,0 +1,25 @@
+{% block header_scripts %}
+    <script type="text/javascript" src="{{ asset('bundles/sergeytest/js/friends.js') }}"></script>
+{% endblock %}
+
+<div class="pull-right">
+<span class="glyphicon glyphicon-plus-sign js-FriendsWindow" data-source="4xxi" data-toggle="modal" data-target="#friendsModal"></span>
+<a href="#" class="js-FriendsWindow" data-toggle="modal" data-source="facebook" data-url="{{ path('facebook_list') }}" data-target="#friendsModal"><img src="{{ asset('bundles/sergeytest/images/glyphicons_facebook.png') }}" width="14" style="margin-bottom: 5px"></a>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="friendsModal" tabindex="-1" role="dialog" aria-labelledby="friendsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="friendsModalLabel">Add Friend from <a href="#" class="js-FriendsTitle"></a> </h4>
+            </div>
+            <div class="modal-body js-FriendsListBody">
+                <img src="{{ asset('bundles/sergeytest/images/ajax-loader.gif') }}" class="js-refreshLoader hide">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

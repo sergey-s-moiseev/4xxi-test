@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5f870ab68373b06a5a145f1fbcc50803",
+    "hash": "f40ad45cd91b81c03ca4a266450484f3",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -749,6 +749,52 @@
                 "orm"
             ],
             "time": "2014-07-11 03:05:53"
+        },
+        {
+            "name": "facebook/php-sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/facebook-php-sdk.git",
+                "reference": "3388ec541761b93651614b48766608c22daad981"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/facebook-php-sdk/zipball/3388ec541761b93651614b48766608c22daad981",
+                "reference": "3388ec541761b93651614b48766608c22daad981",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Facebook",
+                    "homepage": "https://github.com/facebook/facebook-php-sdk/contributors"
+                }
+            ],
+            "description": "Facebook PHP SDK",
+            "homepage": "https://github.com/facebook/facebook-php-sdk",
+            "keywords": [
+                "facebook",
+                "sdk"
+            ],
+            "time": "2014-06-19 19:18:38"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2433,7 +2479,8 @@
         "stof/doctrine-extensions-bundle": 20,
         "hwi/oauth-bundle": 20,
         "stfalcon/tinymce-bundle": 20,
-        "jms/serializer-bundle": 20
+        "jms/serializer-bundle": 20,
+        "facebook/php-sdk": 20
     },
     "prefer-stable": false,
     "platform": {

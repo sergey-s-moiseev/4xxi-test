@@ -70,11 +70,15 @@ function im_update() {
 function im_append(value) {
     var _prototype = $("#imRow-prototype").clone();
     var created = new Date(value.created);
+    var _edit_button = _prototype.find('.js-imEdit');
     _prototype.find(".js-imAvatar").attr("src", value.user.photo_filename);
     _prototype.find(".js-imAvatar").attr("alt", value.user.first_name + " " + value.user.last_name);
     _prototype.find(".js-imCreated").html(created.toDateString() + " " + created.toLocaleTimeString());
     _prototype.find(".js-imMessage").html(value.message);
-    _prototype.find('.js-imEdit').on('click', on_edit);
+    if (_prototype.data('user-id') == value.user.id){
+        _edit_button.removeClass('hide');
+        _edit_button.on('click', on_edit);
+    }
     _prototype.attr("data-message-id", value.id);
     _prototype.removeClass('hide');
     $(".js-imContent").prepend(_prototype);

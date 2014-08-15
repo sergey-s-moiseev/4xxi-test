@@ -1,0 +1,14 @@
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+        {% for _friend in list %}
+        <tr>
+            <td>
+                <img src="{{ _friend.picture.data.url }}" alt="{{ _friend.name }}" class="img-rounded" width="20">
+                {{ _friend.name }}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
