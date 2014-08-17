@@ -11,3 +11,4 @@
 6. Run `app/console assets:install --symlink` (for *nix systems) for setting up all JS, images and other project dependencies.
 
 
+
