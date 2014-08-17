@@ -71,12 +71,18 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <td>
-                                <a href="https://www.facebook.com/{{ app.user.facebookId }}" target="_blank">
-                                    <img src="{{ app.user.photoFilename }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="img-rounded" width="20">
-                                </a>
-                                {{ app.user.firstName }} {{ app.user.lastName }}
-                            </td>
+                            {% if app.user.friends is not empty %}
+                                {% for friend in app.user.friends %}
+                                    <td>
+                                        <img src="{{ friend.photoFilename }}" alt="{{ friend.name }}" class="img-rounded" width="20">
+                                        {{ friend.name }}
+                                    </td>
+                                {% endfor %}
+                            {% else %}
+                                <td>
+                                    {{ "Friend list is empty now." }} <a href="#" class="js-FriendsWindow" data-source="4xxi" data-url="{{ path('friends_list') }}" data-toggle="modal" data-target="#friendsModal">{{ "Add friend" }}</a> {{ "from users list." }}
+                                </td>
+                            {% endif %}
                         </tr>
                     </tbody>
                 </table>

@@ -379,5 +379,10 @@ class User implements UserInterface
         return $this->messages;
     }
 
+    public function getName()
+    {
+        return sprintf('%s %s', $this->getFirstName(), $this->getLastName());
+    }
+
 
 }

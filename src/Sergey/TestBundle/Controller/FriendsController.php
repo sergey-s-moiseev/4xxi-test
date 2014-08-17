@@ -36,7 +36,51 @@ class FriendsController extends Controller
 
         return new JsonResponse(['view' => $this->renderView(
             'SergeyTestBundle:Friends:friends_table.html.twig',
-                ['list' => $friends_list['data']]
+                [
+                    'list' => $friends_list['data'],
+                    'system' => false,
+                    'allow_add' => false
+                ]
         )]);
+    }
+
+    /**
+     * @Route("/list", name="friends_list")
+     * @Method("POST")
+     */
+    public function friendsListAction(Request $request)
+    {
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getDoctrine()->getManager();
+        $friends_list = $em ->getRepository("SergeyTestBundle:User")->findAll();
+
+        return new JsonResponse(['view' => $this->renderView(
+                'SergeyTestBundle:Friends:friends_table.html.twig',
+                [
+                    'list' => $friends_list,
+                    'system' => true,
+                    'allow_add' => true
+                ]
+            )]);
+    }
+
+    /**
+     * @Route("/add", name="add_friend")
+     * @Method("POST")
+     */
+    public function addFriendAction(Request $request)
+    {
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getDoctrine()->getManager();
+        /* @var $user \Sergey\TestBundle\Entity\User */
+        $friend = $em ->getRepository("SergeyTestBundle:User")->findOneBy(['id' => $request->request->get('id')]);
+
+        $user = $this->getUser();
+        $user->addFriend($friend);
+
+        $em->persist($user);
+        $em->flush();
+
+        return new JsonResponse($friend);
     }
 }

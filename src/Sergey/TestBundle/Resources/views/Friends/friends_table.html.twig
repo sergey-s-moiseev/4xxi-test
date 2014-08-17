@@ -4,8 +4,20 @@
         {% for _friend in list %}
         <tr>
             <td>
-                <img src="{{ _friend.picture.data.url }}" alt="{{ _friend.name }}" class="img-rounded" width="20">
-                {{ _friend.name }}
+                <img src="{{ system ? _friend.photoFilename : _friend.picture.data.url }}" alt="{{ _friend.name }}" class="img-rounded" width="20">
+                <span>{{ _friend.name }}</span>
+                {% if allow_add %}
+                    <span class="pull-right js-FriendCell {% if _friend not in app.user.friends %}hide{% endif %}">
+                        <a href="#" class="btn btn-success">
+                            <span class="glyphicon glyphicon-ok"></span>{{ "Friend" | trans }}
+                        </a>
+                    </span>
+                    <span class="pull-right js-AddCell {% if _friend in app.user.friends %}hide{% endif %}">
+                        <a href="#" class="btn btn-default js-AddFriend" onclick="addFriend($(this));" data-friend-id="{{ _friend.id }}" data-add-friend-url="{{ path("add_friend") }}">
+                            <span class="glyphicon glyphicon-plus"></span>{{ "Add" | trans }}
+                        </a>
+                    </span>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
